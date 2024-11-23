@@ -1,0 +1,83 @@
+/* Navbar Styling */
+.navbar {
+    position: fixed; 
+    top: 0;
+    left: 0;
+    padding: 0;
+    width: 100vw; 
+    height: 8vh;
+    background-color: #3498db;
+    color: white;
+  }
+
+.logo {
+    position: absolute;
+    top : 15%;
+    left: 0%;
+    height: 70%;
+    width: 15%;
+    padding : 0 0 0 3%;
+    font-size: 1.75rem;
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+  }
+  
+  .nav-right {
+    position: absolute;
+    top: 15%;
+    left:75%;
+    height: 70%;
+    width: 25% ;
+    padding : 0 3% 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .nav-links {
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 50%;
+    /*gap: 30%;*/
+
+  }
+  
+  .login-button {
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    height:70%;
+    padding: 0% 2%; 
+    border-radius: 5%; 
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .login-button:hover {
+    background-color: #27ae60;
+  }
+  
+  
+  
+  
+  .nav-right a {
+    text-decoration: none;
+    color: white;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+  }
+  
+  .nav-right a:hover {
+    color: #f4f4f9;
+  }
+
+
+
+
+
+
+  
+ 

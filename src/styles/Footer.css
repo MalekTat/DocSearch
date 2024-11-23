@@ -1,0 +1,17 @@
+.footer {
+    position: absolute;
+    
+    background-color: aliceblue;
+    color: black;
+    width: 100vw;
+    height : 10%;
+    padding: 0;
+    margin: 0;
+    top : 90%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    
+
+}

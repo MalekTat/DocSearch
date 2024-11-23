@@ -1,0 +1,10 @@
+.hero-section {
+    position: absolute;
+    left: 0;
+    top: 8%;
+    background-image: url(./123.png) ;
+    background-size: cover;
+    color: black;
+    height: 82%;
+    width: 100%;
+}
