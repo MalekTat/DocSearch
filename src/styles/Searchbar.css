@@ -1,0 +1,78 @@
+/* Search Bar */
+.search-bar {
+  position: absolute;
+  width: 50%;
+  height: 8%;
+  left: 10%;
+    
+  display: flex;
+  justify-content: space-between;
+  background-color: #fff; /* White background for the search bar */
+  border-radius: 25px;
+  padding: 0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow for better visibility */   
+}
+
+.search-bar-result{
+  position: absolute;
+  width: 60%;
+  height: 60%;
+  
+
+  display: flex;
+  justify-content: space-between;
+  background-color: #fff; /* White background for the search bar */
+  border-radius: 25px;
+  padding: 0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow for better visibility */ 
+}
+    
+  
+.search-specialty{
+  height: 100%;
+  width: 42.5%;
+  border-top-left-radius:25px ;
+  border-bottom-left-radius: 25px;
+
+  padding: 0; 
+  margin: 0;
+  display: flex; 
+  align-items: center; 
+
+}
+.search-city{
+  height: 100%;
+  width: 42.5%;
+  padding: 0; 
+  margin: 0;
+  display: flex; 
+  align-items: center; 
+}
+
+/* Search Button */
+.search-button-container{
+  height: 100%;
+  width: 15%;
+}
+
+.search-button1 {
+  background-color: #e2c404; /* Matches the blue theme */
+  color: #fff;
+  border: none;
+  height: 100%;
+
+  border-top-right-radius:25px ;
+  border-bottom-right-radius: 25px;
+  padding: 0;
+  margin: 0;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+
+.search-button:hover {
+  background-color: #004a94; /* Darker blue for hover effect */
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2); /* Add hover shadow */
+}

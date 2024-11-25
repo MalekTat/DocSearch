@@ -21,6 +21,7 @@
     font-weight: bold;
     display: inline-flex;
     align-items: center;
+    color: white;
   }
   
   .nav-right {
@@ -33,27 +34,29 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap : 0px;
   }
 
-  .nav-links {
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 50%;
-    /*gap: 30%;*/
-
-  }
+ 
   
   .login-button {
     background-color: #2ecc71;
     color: white;
     border: none;
-    height:70%;
-    padding: 0% 2%; 
-    border-radius: 5%; 
+    height: 100%;
+    padding: 0% 2%;
+    margin: 0%;
+    border-radius: 10%; 
     cursor: pointer;
     transition: background-color 0.3s ease;
+    
+  }
+
+  .button-container{
+    width: 25%;
+    height: 100%;
+    border: none;
+
   }
   
   .login-button:hover {

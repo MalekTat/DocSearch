@@ -1,10 +1,17 @@
-import React from 'react'
-import '../styles/Homepage.css'
+import '../styles/Homepage.css';
+
+import React from 'react';
+import Searchbar from '../components/Searchbar';
+
 
 const Homepage = () => {
+  
   return (
-    <div className="hero-section" > Homepage</div>
-  )
-}
+    <div className="hero-section">
+      
+      <Searchbar />
+    </div>
+  );
+};
 
-export default Homepage
+export default Homepage;

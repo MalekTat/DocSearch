@@ -1,0 +1,65 @@
+.doctor-card {
+  display: flex;
+  flex-direction: row; /* Arrange content in a row */
+  align-items: flex-start; /* Align items to the top */
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 16px auto;
+  width: 750px; /* Maintain wide width */
+  height: 210px; /* Compact height */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.doctor-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.doctor-profile-pic {
+  width: 70px; /* Smaller profile picture */
+  height: 70px;
+  border-radius: 50%;
+  border: 2px solid #ddd;
+  object-fit: cover;
+  margin: 16px 12px 0; /* Space around the image */
+}
+
+.doctor-left {
+  display: flex;
+  flex-direction: column; /* Stack the image and stars vertically */
+  align-items: center; /* Center-align the content */
+  justify-content: flex-start; /* Align content to the top */
+  width: 100px; /* Fixed width for the image and stars column */
+  margin-top: 16px;
+}
+
+.doctor-rating {
+  font-size: 14px;
+  color: #f4b400; /* Golden yellow for stars */
+  margin-top: 8px; /* Add spacing below the image */
+  text-align: center; /* Center-align the stars */
+}
+
+.doctor-info {
+  flex: 1;
+  padding: 12px 16px; /* Padding around the text */
+}
+
+.doctor-info h2 {
+  font-size: 18px; /* Reduced font size for compactness */
+  margin: 0 0 8px;
+  color: #333;
+}
+
+.doctor-info p {
+  margin: 4px 0;
+  font-size: 12px; /* Smaller font for better alignment */
+  color: #555;
+}
+
+.doctor-info p strong {
+  color: #444;
+}
