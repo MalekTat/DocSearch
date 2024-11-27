@@ -14,9 +14,7 @@ import { useSearchContext } from '../context/SearchContext';
 
 const Searchbar = () => {
   const searchListPage  = useLocation();
-  console.log(searchListPage)
   const { searchState, setSearchState } = useSearchContext();
-  console.log(searchState)
 
   const [allOptions, setAllOptions] = useState([]); // Store all options from the API
   const [filteredOptions, setFilteredOptions] = useState([]); // Store options filtered by user input

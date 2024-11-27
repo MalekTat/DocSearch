@@ -10,7 +10,10 @@ import Homepage from './pages/Homepage'
 import Login from './pages/Login';
 import Searchpage from './pages/Searchpage';
 import { SearchProvider } from './context/SearchContext'
-
+import { AuthProvider } from './context/AuthContext';
+import DoctorDetail from './pages/DoctorDetail';
+import AdminPage from './pages/AdminPage';
+import DoctorPage from './pages/DoctorPage';
 
 
 function App() {
@@ -18,18 +21,23 @@ function App() {
 
   return (
     <>
-      
-      <Navbar />
-      
-      <Footer />
 
-      <SearchProvider>
-      <Routes>
-				<Route path='/' element={<Homepage />} />
-				<Route path='/login' element={<Login />} />
-        <Route path='/search-result' element={<Searchpage />} />
-			</Routes>
-      </SearchProvider>
+      <AuthProvider>  
+        <Navbar />
+      
+        <Footer />
+
+        <SearchProvider>
+          <Routes>
+				    <Route path='/' element={<Homepage />} />
+				    <Route path='/login' element={<Login />} />
+            <Route path='/search-result' element={<Searchpage />} />
+            <Route path="/doctor/:id" element={<DoctorDetail />} />
+            <Route path="/admin" element={<AdminPage />} />
+            <Route path="/doctor" element={<DoctorPage />} />
+			    </Routes>
+        </SearchProvider>
+      </AuthProvider>
       
     </>
   )

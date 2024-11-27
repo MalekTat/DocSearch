@@ -27,7 +27,7 @@
   margin: 16px 12px 0; /* Space around the image */
 }
 
-.doctor-left {
+.doctor-card-header {
   display: flex;
   flex-direction: column; /* Stack the image and stars vertically */
   align-items: center; /* Center-align the content */

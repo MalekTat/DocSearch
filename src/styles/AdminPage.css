@@ -1,0 +1,168 @@
+/* Admin Page Container */
+.admin-page {
+  position: absolute; 
+  top: 8%; 
+  width: 100%;
+  background-color: white;
+  color: black;
+  padding: 1%;
+  min-height: calc(100vh - 8%); /* Full viewport height minus header */
+ 
+}
+
+/* Admin Stats Section */
+.admin-stats {
+  position: relative; /* Ensures it's part of document flow */
+  float: right; /* Aligns it to the right */
+  text-align: center;
+  margin-bottom: 20px; /* Adds spacing below */
+}
+
+.admin-stats p {
+  margin: 5px 0;
+  font-weight: bold;
+}
+
+.add-button {
+  
+  width: 50%;
+  margin-top: 10px;
+  margin-left: 25px;
+  padding: 5px 0px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.add-button:hover {
+  background-color: #2980b9;
+}
+
+/* Search Box */
+.search-box {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.search-box input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 200px;
+}
+
+
+/* Doctor List */
+.admin-doctor-list {
+  margin-top: 20px; /* Adjust as needed */
+  width: 100%;
+}
+
+.admin-doctor-list table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-doctor-list table th,
+.admin-doctor-list table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+  word-wrap: break-word; 
+}
+
+.admin-doctor-list table th {
+  background-color: #f4f4f4;
+}
+
+.admin-doctor-list button {
+  margin-right: 0px;
+  padding: 0px 0px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.admin-doctor-list button:hover {
+  background-color: #2980b9;
+}
+
+/* Doctor Profile Picture */
+.doctor-profile-pic {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Dialog Overlay */
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+/* Dialog Box */
+.dialog {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 400px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.dialog h2 {
+  margin-bottom: 20px;
+}
+
+.dialog form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dialog form input,
+.dialog form select {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.dialog form button {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.dialog form button[type="submit"] {
+  background-color: #3498db;
+  color: white;
+}
+
+.dialog form button[type="submit"]:hover {
+  background-color: #2980b9;
+}
+
+.dialog form button[type="button"] {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.dialog form button[type="button"]:hover {
+  background-color: #c0392b;
+}

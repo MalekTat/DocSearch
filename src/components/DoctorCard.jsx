@@ -1,7 +1,7 @@
 import React from 'react';
 import '../styles/DoctorCard.css';
 
-const DoctorCard = ({ doctor, onHover, onLeave }) => {
+const DoctorCard = ({ doctor, onHover, onLeave , onClick}) => {
   const renderStars = (rate) => {
     const fullStars = Math.floor(rate);
     const halfStar = rate % 1 >= 0.5;
@@ -21,10 +21,10 @@ const DoctorCard = ({ doctor, onHover, onLeave }) => {
       className="doctor-card"
       onMouseEnter={onHover}
       onMouseLeave={onLeave}
+      onClick={onClick}
     >
       <div className="doctor-card-header">
         <img src={doctor.profile_pic} alt={`${doctor.firstName} ${doctor.lastName}`} className="doctor-profile-pic" />
-        {console.log(doctor.profile_pic)}
         <div className="doctor-rating">{renderStars(doctor.rate)}</div>
       </div>
       <div className="doctor-info">
