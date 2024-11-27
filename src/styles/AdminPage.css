@@ -115,54 +115,113 @@
 
 
 
-/* Dialog Box */
+/* Dialog Styles (Larger Form and Map Integration) */
 .dialog {
-  background: white;
+  position: absolute;
+  top: 15%;
+  left: 23%;
+  right: 15%;
+  bottom: 15%;
+  max-width: 800px;
   padding: 20px;
   border-radius: 10px;
-  width: 400px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  background: white;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+  overflow: auto;
+  scrollbar-width: thin
 }
 
+/* .dialog::-webkit-scrollbar {
+  display: none;
+} */
+
 .dialog h2 {
+  font-size: 24px;
   margin-bottom: 20px;
 }
 
 .dialog form {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
 }
 
 .dialog form input,
 .dialog form select {
-  padding: 10px;
+  font-size: 14px;
+  padding: 8px;
   border: 1px solid #ddd;
   border-radius: 5px;
   width: 100%;
+  background-color: #f0f8ff;
+  color: black;
+  margin: 10px 0;
 }
 
-.dialog form button {
-  padding: 10px;
+.dialog form .form-row {
+  display: flex;
+  gap: 10px;
+  /*width: 100%; */
+}
+
+.dialog form .form-actions {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+  margin: 20px 150px;
+  gap: 30%
+}
+
+.dialog form button[type="submit"] {
+  background-color: #27ae60;
+  color: white;
+  padding: 10px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
 }
 
-.dialog form button[type="submit"] {
-  background-color: #3498db;
-  color: white;
-}
-
 .dialog form button[type="submit"]:hover {
-  background-color: #2980b9;
+  background-color: #219653;
 }
 
 .dialog form button[type="button"] {
   background-color: #e74c3c;
   color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .dialog form button[type="button"]:hover {
   background-color: #c0392b;
+}
+
+/* Map Integration */
+.dialog .leaflet-container {
+  height: 250px;
+  width: 100%;
+  margin-top: 15px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+
+.dialog form input[type="file"]{
+  padding: 10px 7px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 65%;
+  margin: 10px 0;
+  text-align: right;
+  font-weight: 500;
+}
+
+.dialog form button.upload-button:hover {
+  background-color: #18679c;
 }

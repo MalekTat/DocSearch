@@ -3,7 +3,9 @@ import { useNavigate  } from 'react-router-dom';
 import axios from 'axios';
 import { useAuthContext } from '../context/AuthContext';
 import '../styles/AdminPage.css';
+import Map from '../components/Map';
 
+  
 const AdminPage = () => {
   const { isAdmin } = useAuthContext();
 
@@ -12,13 +14,14 @@ const AdminPage = () => {
   }
 
   const navigate = useNavigate();
+  const [image, setImage] = useState('')
   const [doctors, setDoctors] = useState([]);
   const [search, setSearch] = useState({ firstName: '', lastName: '', city: '' });
   const [formData, setFormData] = useState({
     id: '',
     firstName: '',
     lastName: '',
-    profile_pic: 'https://xsgames.co/randomusers/avatar.php?g=Male',
+    profile_pic: '',
     email: '',
     phone_number: '',
     specialty: '',
@@ -30,7 +33,9 @@ const AdminPage = () => {
     street_number: '',
     opening_hour: '',
     languages: '',
-    insurance: 'both public and private',
+    insurance: '',
+    latitude: '',
+    longitude:''
   });
   const [isEditing, setIsEditing] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
@@ -48,6 +53,18 @@ const AdminPage = () => {
     }
   };
 
+  const handleSearch = () => {
+    return doctors.filter(
+      (doctor) =>
+        doctor.firstName.toLowerCase().includes(search.firstName.toLowerCase()) &&
+        doctor.lastName.toLowerCase().includes(search.lastName.toLowerCase()) &&
+        doctor.city.toLowerCase().includes(search.city.toLowerCase())
+    );
+  };
+
+  const totalCities = [...new Set(doctors.map((doc) => doc.city))].length;
+
+
   const handleDelete = async (id) => {
     try {
       await axios.delete(`http://localhost:5005/doctors/${id}`);
@@ -63,52 +80,157 @@ const AdminPage = () => {
     setShowDialog(true);
   };
 
-  const handleAddOrUpdate = async (e) => {
-    e.preventDefault();
+
+
+
+
+  // Geocoding Function with Nominatim
+  const getCoordinatesWithNominatim = async (address) => {
     try {
-      if (isEditing) {
-        await axios.put(`http://localhost:5005/doctors/${formData.id}`, formData);
-      } else {
-        await axios.post('http://localhost:5005/doctors/', formData);
+      const response = await axios.get(
+        `https://nominatim.openstreetmap.org/search`,
+        {
+          params: {
+            q: address,
+            format: 'json',
+          },
+        }
+      );
+  
+      if (response.data.length === 0) {
+        return { lat: 0 , lon: 0 };
       }
-
-      setFormData({
-        id: '',
-        firstName: '',
-        lastName: '',
-        profile_pic: 'https://xsgames.co/randomusers/avatar.php?g=Male',
-        email: '',
-        phone_number: '',
-        specialty: '',
-        gender: 'Male',
-        country: '',
-        city: '',
-        postal_code: '',
-        street_name: '',
-        street_number: '',
-        opening_hour: '',
-        languages: '',
-        insurance: 'both public and private',
-      });
-
-      setIsEditing(false);
-      setShowDialog(false);
-      fetchDoctors();
+  
+      const { lat, lon } = response.data[0]; // Get the first result
+      return { lat: parseFloat(lat), lon: parseFloat(lon) };
     } catch (error) {
-      console.error('Error saving doctor:', error);
+      console.error('Error fetching coordinates:', error);
+      return null;
     }
   };
 
-  const handleSearch = () => {
-    return doctors.filter(
-      (doctor) =>
-        doctor.firstName.toLowerCase().includes(search.firstName.toLowerCase()) &&
-        doctor.lastName.toLowerCase().includes(search.lastName.toLowerCase()) &&
-        doctor.city.toLowerCase().includes(search.city.toLowerCase())
-    );
+
+
+
+  const updateCoordinates = async () => {
+    const address = `${formData.street_number} ${formData.street_name}, ${formData.city}, ${formData.postal_code}, ${formData.country}`;
+    const coordinates = await getCoordinatesWithNominatim(address);
+  
+    if (coordinates) {
+      setFormData((prev) => ({
+        ...prev,
+        latitude: coordinates.lat,
+        longitude: coordinates.lon,
+      }));
+    }
   };
 
-  const totalCities = [...new Set(doctors.map((doc) => doc.city))].length;
+  const handleAddOrUpdate = async (e) => {
+  e.preventDefault();
+  const largestId = doctors.reduce((max, doctor) => Math.max(max, doctor.id), 0);
+  const newId = isEditing ? formData.id : largestId + 1;
+
+  const newDoctorData = {...formData, id: newId};
+
+  // Fetch address coordinates
+  if(!isEditing) {
+  const address = `${formData.street_number} ${formData.street_name}, ${formData.city}, ${formData.postal_code}, ${formData.country}`;
+  const coordinates = await getCoordinatesWithNominatim(address);
+  newDoctorData.latitude = coordinates.lat;
+  newDoctorData.longitude = coordinates.lon;
+  } 
+
+
+  if (image) {
+    try {
+      const formData = new FormData();
+      formData.append('file', image);
+      formData.append('upload_preset', 'docsearch'); 
+
+      const res = await axios.post(
+        'https://api.cloudinary.com/v1_1/dhvyrgmrq/image/upload',
+        formData
+      );
+
+      newDoctorData.profile_pic = res.data.url; 
+    } catch (err) {
+      console.error('Error uploading image:', err);
+      return; // Stop execution if the image upload fails
+    }
+    setImage('');
+  }
+
+  try {
+    if (isEditing) {
+      await axios.put(`http://localhost:5005/doctors/${formData.id}`, newDoctorData);
+    } else {
+      await axios.post(`http://localhost:5005/doctors/`, newDoctorData);
+    }
+
+    // Reset form data and close dialog
+    setFormData({
+      id: '',
+      firstName: '',
+      lastName: '',
+      profile_pic: '',
+      email: '',
+      phone_number: '',
+      specialty: '',
+      gender: 'Male',
+      country: '',
+      city: '',
+      postal_code: '',
+      street_name: '',
+      street_number: '',
+      opening_hour: '',
+      languages: '',
+      insurance: '',
+      latitude: '',
+      longitude:''
+    });
+
+    setIsEditing(false);
+    setShowDialog(false);
+    fetchDoctors(); // Refresh the list
+  } catch (error) {
+    console.error('Error saving doctor:', error);
+  }
+};
+
+
+const resetDialog = () => {
+  setIsEditing(false);
+  setShowDialog(false);
+  setFormData({
+    id: '',
+    firstName: '',
+    lastName: '',
+    profile_pic: 'https://xsgames.co/randomusers/avatar.php?g=Male',
+    email: '',
+    phone_number: '',
+    specialty: '',
+    gender: 'Male',
+    country: '',
+    city: '',
+    postal_code: '',
+    street_name: '',
+    street_number: '',
+    opening_hour: '',
+    languages: '',
+    insurance: 'both public and private',
+    latitude: '',
+    longitude:''
+  });
+};
+
+
+
+
+
+
+
+
+
 
   return (
     <div className="admin-page">
@@ -199,10 +321,12 @@ const AdminPage = () => {
 
       {/* Dialog Box for Adding/Editing */}
       {showDialog && (
-        <div className="dialog-overlay">
-          <div className="dialog">
-            <h2>{isEditing ? 'Edit Doctor' : 'Add Doctor'}</h2>
-            <form onSubmit={handleAddOrUpdate}>
+      <div className="dialog-overlay">
+        <div className="dialog">
+          <h2>{isEditing ? 'Edit Doctor' : 'Add Doctor'}</h2>
+          <form onSubmit={handleAddOrUpdate}>
+            {/* Row 1: First Name, Last Name, Gender */}
+            <div className="form-row">
               <input
                 type="text"
                 placeholder="First Name"
@@ -217,12 +341,44 @@ const AdminPage = () => {
                 onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                 required
               />
+              <select
+                value={formData.gender}
+                onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
+                required
+              >
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>
+            </div>
+
+            {/* Row 2: Profile Pic Upload, Specialty */}
+            <div className="form-row">
+              <input
+                   type="file"
+                    onChange={(e) => setImage(e.target.files[0])} // Get the selected file
+              />
+              <select
+                value={formData.specialty}
+                onChange={(e) => setFormData({ ...formData, specialty: e.target.value })}
+                required
+              >
+                <option value="">Select Specialty</option>
+                <option value="Cardiology">Cardiology</option>
+                <option value="Dermatology">Dermatology</option>
+                <option value="Neurology">Neurology</option>
+                <option value="Pediatrics">Pediatrics</option>
+                {/* Add more specialties */}
+              </select>
               <input
                 type="text"
-                placeholder="Profile Picture URL"
-                value={formData.profile_pic}
-                onChange={(e) => setFormData({ ...formData, profile_pic: e.target.value })}
+                placeholder="Languages"
+                value={formData.languages}
+                onChange={(e) => setFormData({ ...formData, languages: e.target.value })}
               />
+            </div>
+
+            {/* Row 3: Email, Phone Number */}
+            <div className="form-row">
               <input
                 type="email"
                 placeholder="Email"
@@ -236,31 +392,93 @@ const AdminPage = () => {
                 value={formData.phone_number}
                 onChange={(e) => setFormData({ ...formData, phone_number: e.target.value })}
               />
+            </div>
+
+            {/* Row 4: Country, City, Postal Code */}
+            <div className="form-row">
               <input
                 type="text"
-                placeholder="Specialty"
-                value={formData.specialty}
-                onChange={(e) => setFormData({ ...formData, specialty: e.target.value })}
+                placeholder="Country"
+                value={formData.country}
+                onChange={(e) => {
+                  setFormData({ ...formData, country: e.target.value });
+                  updateCoordinates();
+                }}
               />
-              <select
-                value={formData.gender}
-                onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
-              >
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-              </select>
               <input
                 type="text"
                 placeholder="City"
                 value={formData.city}
-                onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                onChange={(e) => {
+                  setFormData({ ...formData, city: e.target.value });
+                  updateCoordinates();
+                }}
               />
+              <input
+                type="text"
+                placeholder="Postal Code"
+                value={formData.postal_code}
+                onChange={(e) => {
+                  setFormData({ ...formData, postal_code: e.target.value });
+                  updateCoordinates();
+                }}
+              />
+            </div>
+
+            {/* Row 5: Street Name, Street Number */}
+            <div className="form-row">
+              <input
+                type="text"
+                placeholder="Street Name"
+                value={formData.street_name}
+                onChange={(e) => {
+                  setFormData({ ...formData, street_name: e.target.value });
+                  updateCoordinates();
+                }}
+              />
+              <input
+                type="text"
+                placeholder="Street Number"
+                value={formData.street_number}
+                onChange={(e) => {
+                  setFormData({ ...formData, street_number: e.target.value });
+                  updateCoordinates();
+                }}
+              />
+            </div>
+
+            {/* Row 6: Languages, Opening Hour, Insurance */}
+            <div className="form-row">
+              
+              <input
+                type="text"
+                placeholder="Opening Hour (e.g., 9:00 AM)"
+                value={formData.opening_hour}
+                onChange={(e) => setFormData({ ...formData, opening_hour: e.target.value })}
+              />
+              <input
+                type="text"
+                placeholder="Insurance (e.g., public, private)"
+                value={formData.insurance}
+                onChange={(e) => setFormData({ ...formData, insurance: e.target.value })}
+              />
+              
+            </div>
+
+            {/* Map */}
+            <Map lat={formData.latitude} lon={formData.longitude} />
+
+            {/* Form Buttons */}
+            <div className="form-actions">
               <button type="submit">{isEditing ? 'Update' : 'Add'}</button>
-              <button type="button" onClick={() => setShowDialog(false)}>Cancel</button>
-            </form>
-          </div>
+              <button type="button" onClick={resetDialog}>
+                Cancel
+              </button>
+            </div>
+          </form>
         </div>
-      )}
+      </div>
+    )}
     </div>
   );
 };

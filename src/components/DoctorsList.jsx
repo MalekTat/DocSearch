@@ -88,7 +88,7 @@ const DoctorsList = () => {
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 attribution="&copy; OpenStreetMap contributors"
               />
-              {doctors.map((doctor) => (
+              {doctors.map((doctor) => {console.log(doctor.latitude, doctor.longitude) ; return( 
                 <Marker
                   key={doctor.id}
                   position={[doctor.latitude, doctor.longitude]}
@@ -104,7 +104,7 @@ const DoctorsList = () => {
                     Hospital: {doctor.hospital_name || doctor.street_name}
                   </Popup>
                 </Marker>
-              ))}
+              )})}
             </MapContainer>
         </div>
       </div>
